@@ -14,10 +14,11 @@ public class TaskList {
     taskListSize = 1;
   }
 
-  public void addTask (Task task) {
+  public boolean addTask (Task task) {
     Node newNode = new Node(task);
     newNode.setNextNode(head);
     head = newNode;
+    return true;
   }
 
   public boolean removeTask(int index) {
