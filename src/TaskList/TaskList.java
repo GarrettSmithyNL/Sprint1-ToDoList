@@ -4,32 +4,21 @@ import Task.Task;
 
 public class TaskList {
   private Node head;
-  private Node tail;
   private int taskListSize;
 
-  public TaskList (Task task) {
-    Node newNode = new Node(task);
-    this.head = newNode;
-    this.tail = newNode;
-    taskListSize = 1;
+  public TaskList () {
+    taskListSize = 0;
   }
 
-  public boolean addTask (Task task) {
+  public void addTask (Task task) {
     Node newNode = new Node(task);
-    newNode.setNextNode(head);
-    head = newNode;
-    return true;
-  }
-
-  public boolean removeTask(int index) {
-    try {
-      Node selectedNode = getSelectedNodeAtIndex(index);
-      Node previousNode = getPreviousNodeToSelected(index);
-      previousNode.setNextNode(selectedNode.getNextNode());
-      return true;
-    } catch (ArrayIndexOutOfBoundsException e) {
-      return false;
+    if (taskListSize == 0) {
+      this.head = newNode;
+    } else {
+      newNode.setNextNode(head);
+      head = newNode;
     }
+    taskListSize++;
   }
 
   public boolean markAsComplete (int index) {
@@ -45,25 +34,22 @@ public class TaskList {
     if (index > taskListSize || index < 1) throw new ArrayIndexOutOfBoundsException();
     int counter = 1;
     Node selectedNode = head;
-    while (counter <= index) {
+    while (counter < index) {
       selectedNode = selectedNode.getNextNode();
       counter++;
     }
     return selectedNode;
   }
 
-  private Node getPreviousNodeToSelected(int indexOfSelected) {
-    return getSelectedNodeAtIndex(indexOfSelected - 1);
-  }
-
   @Override
   public String toString() {
-    String results = "";
+    String results = "Task List: \n";
     int counter = 1;
-    Node selectedNode = head;
+    Node selectedNode = this.head;
     while (counter <= taskListSize) {
-      results += counter + ".) " + selectedNode.getValue().getDescription() + "\n";
+      results += counter + ".) " + selectedNode.getValue();
       selectedNode = selectedNode.getNextNode();
+      counter++;
     }
     return results;
   }
@@ -72,11 +58,10 @@ public class TaskList {
 
   private class Node {
     private Node nextNode;
-    private Task value;
+    private final Task value;
 
     public Node (Task value) {
       this.value = value;
-      this.nextNode = null;
     }
 
     public void setNextNode (Node newNextNode) {

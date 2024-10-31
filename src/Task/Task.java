@@ -14,14 +14,22 @@ public class Task {
   }
 
   public boolean isComplete() {
-    return isComplete;
+    return this.isComplete;
   }
 
   public String getDescription() {
-    return description;
+    return this.description;
   }
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  @Override
+  public String toString() {
+    String results = "";
+    results += this.description;
+    if(isComplete) { results += " - Completed"; }
+    return results + "\n";
   }
 }
